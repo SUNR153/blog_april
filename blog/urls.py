@@ -1,8 +1,17 @@
 from django.urls import path
-from .views import home, post_detail, search
+from . import views
 
-urlpatterns = {
-    path('', home, name='home'),
-    path('post/<int:post_id>/', post_detail, name='post_detail'),
-    path('search/', search, name='search'),
-}
+urlpatterns = [
+    path('', views.home, name='home'),
+    path('about/', views.about, name='about'),
+    path('contact/', views.contact, name='contact'),
+    path('rules/', views.rules, name='rules'),
+    path('search/', views.search, name='search'),
+    path('orm-demo/', views.orm_demo, name='orm_demo'),
+
+    path('post/<int:post_id>/', views.post_detail, name='post_detail'),
+    path('post/create/', views.post_create, name='post_create'),
+    path('post/<int:post_id>/comment/', views.comment_create, name='comment_create'),
+
+    path('category/create/', views.category_create, name='category_create'),
+]

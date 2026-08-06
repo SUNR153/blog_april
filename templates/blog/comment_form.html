@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}Добавить комментарий — Blog System{% endblock %}
+
+{% block content %}
+    <h2>Комментарий к посту «{{ post.title }}»</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Отправить</button>
+    </form>
+{% endblock %}
