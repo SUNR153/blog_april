@@ -1,0 +1,28 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}Категория {{ category.name }} — Blog System{% endblock %}
+
+{% block content %}
+    <h2>Публикации в категории «{{ category.name }}»</h2>
+
+    {% for post in page_obj %}
+        <div>
+            <h3><a href="{% url 'post_detail' post_id=post.id %}">{{ post.title }}</a></h3>
+            <p>{{ post.created_at }}</p>
+        </div>
+    {% empty %}
+        <p>В этой категории пока нет публикаций.</p>
+    {% endfor %}
+
+    <div>
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}">Назад</a>
+        {% endif %}
+
+        <span>Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">Вперёд</a>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -10,7 +10,7 @@ class Category(models.Model):
 
 class Post(models.Model):
     title = models.CharField(max_length=200)
-    slug = models.SlugField(unique=True, blank=True)
+    slug = models.SlugField(max_length=255, unique=True, blank=True, null=True, allow_unicode=True)
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     is_published = models.BooleanField(default=False)

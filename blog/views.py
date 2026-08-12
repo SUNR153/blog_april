@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from .models import Post, Category, Comment
 from .forms import PostForm, CommentForm, CategoryForm
+from django.core.paginator import Paginator
 
 
 # --- Урок 2: базовые views ---
@@ -117,3 +118,23 @@ def category_create(request):
     else:
         form = CategoryForm()
     return render(request, 'blog/category_form.html', {'form': form})
+
+
+# --- Урок 7: CRUD операции и пагинация ---
+
+def post_list(request):
+    posts = Post.objects.filter(is_published=True).order_by('-created_at')
+    per_page = request.GET.get('per_page', 5)
+    paginator = Paginator(posts, per_page)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'blog/post_list.html', {'page_obj': page_obj})
+
+
+def posts_by_category(request, category_id):
+    category = get_object_or_404(Category, id=category_id)
+    posts = Post.objects.filter(is_published=True, category=category).order_by('-created_at')
+    paginator = Paginator(posts, 5)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'blog/posts_by_category.html', {'page_obj': page_obj, 'category': category})
