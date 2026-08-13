@@ -7,8 +7,8 @@ from django.core.paginator import Paginator
 
 # --- Урок 2: базовые views ---
 
-def post_detail(request, post_id):
-    return HttpResponse(f"Пост номер {post_id}")
+# def post_detail(request, post_id):
+#     return HttpResponse(f"Пост номер {post_id}")
 
 
 def search(request):
@@ -138,3 +138,55 @@ def posts_by_category(request, category_id):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return render(request, 'blog/posts_by_category.html', {'page_obj': page_obj, 'category': category})
+
+
+# --- Урок 8: CRUD операции, полная информация о посте, редактирование и удаление ---
+
+def post_detail(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    return render(request, 'blog/post_detail.html', {'post': post})
+
+
+def post_update(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    if request.method == 'POST':
+        form = PostForm(request.POST, instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect('post_detail', post_id=post.id)
+    else:
+        form = PostForm(instance=post)
+    return render(request, 'blog/post_form.html', {'form': form, 'post': post})
+
+
+def post_delete(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    if request.method == 'POST':
+        post.delete()
+        return redirect('post_list')
+    return render(request, 'blog/post_confirm_delete.html', {'post': post})
+
+
+def category_list(request):
+    categories = Category.objects.all()
+    return render(request, 'blog/category_list.html', {'categories': categories})
+
+
+def category_update(request, category_id):
+    category = get_object_or_404(Category, id=category_id)
+    if request.method == 'POST':
+        form = CategoryForm(request.POST, instance=category)
+        if form.is_valid():
+            form.save()
+            return redirect('category_list')
+    else:
+        form = CategoryForm(instance=category)
+    return render(request, 'blog/category_form.html', {'form': form, 'category': category})
+
+
+def category_delete(request, category_id):
+    category = get_object_or_404(Category, id=category_id)
+    if request.method == 'POST':
+        category.delete()
+        return redirect('category_list')
+    return render(request, 'blog/category_confirm_delete.html', {'category': category})

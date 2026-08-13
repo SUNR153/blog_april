@@ -9,6 +9,8 @@
         <div>
             <h3><a href="{% url 'post_detail' post_id=post.id %}">{{ post.title }}</a></h3>
             <p>{{ post.created_at }}</p>
+            <a href="{% url 'post_update' post_id=post.id %}">Редактировать</a> |
+            <a href="{% url 'post_delete' post_id=post.id %}">Удалить</a>
         </div>
     {% empty %}
         <p>Публикаций пока нет.</p>
@@ -18,15 +20,7 @@
         {% if page_obj.has_previous %}
             <a href="?page={{ page_obj.previous_page_number }}">Назад</a>
         {% endif %}
-
-        {% for page_num in page_obj.paginator.page_range %}
-            {% if page_num == page_obj.number %}
-                <strong>{{ page_num }}</strong>
-            {% else %}
-                <a href="?page={{ page_num }}">{{ page_num }}</a>
-            {% endif %}
-        {% endfor %}
-
+        <span>Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
         {% if page_obj.has_next %}
             <a href="?page={{ page_obj.next_page_number }}">Вперёд</a>
         {% endif %}

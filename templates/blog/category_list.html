@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Категории — Blog System{% endblock %}
+
+{% block content %}
+    <h2>Категории</h2>
+    {% for category in categories %}
+        <p>
+            {{ category.name }} —
+            <a href="{% url 'category_update' category_id=category.id %}">Редактировать</a> |
+            <a href="{% url 'category_delete' category_id=category.id %}">Удалить</a>
+        </p>
+    {% empty %}
+        <p>Категорий пока нет.</p>
+    {% endfor %}
+{% endblock %}
