@@ -86,7 +86,7 @@ def orm_demo(request):
 
 def post_create(request):
     if request.method == 'POST':
-        form = PostForm(request.POST)
+        form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect('home')
@@ -98,7 +98,7 @@ def post_create(request):
 def comment_create(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     if request.method == 'POST':
-        form = CommentForm(request.POST)
+        form = CommentForm(request.POST, request.FILES)
         if form.is_valid():
             comment = form.save(commit=False)
             comment.post = post
@@ -150,7 +150,7 @@ def post_detail(request, post_id):
 def post_update(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     if request.method == 'POST':
-        form = PostForm(request.POST, instance=post)
+        form = PostForm(request.POST, request.FILES, instance=post)
         if form.is_valid():
             form.save()
             return redirect('post_detail', post_id=post.id)
@@ -190,3 +190,24 @@ def category_delete(request, category_id):
         category.delete()
         return redirect('category_list')
     return render(request, 'blog/category_confirm_delete.html', {'category': category})
+
+
+def comment_update(request, comment_id):
+    comment = get_object_or_404(Comment, id=comment_id)
+    if request.method == 'POST':
+        form = CommentForm(request.POST, request.FILES, instance=comment)
+        if form.is_valid():
+            form.save()
+            return redirect('post_detail', post_id=comment.post.id)
+    else:
+        form = CommentForm(instance=comment)
+    return render(request, 'blog/comment_form.html', {'form': form, 'post': comment.post, 'comment': comment})
+
+
+def comment_delete(request, comment_id):
+    comment = get_object_or_404(Comment, id=comment_id)
+    post_id = comment.post.id
+    if request.method == 'POST':
+        comment.delete()
+        return redirect('post_detail', post_id=post_id)
+    return render(request, 'blog/comment_confirm_delete.html', {'comment': comment})

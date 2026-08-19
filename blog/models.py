@@ -9,6 +9,7 @@ class Category(models.Model):
 
 
 class Post(models.Model):
+    image = models.ImageField(upload_to='posts/', blank=True, null=True)
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=255, unique=True, blank=True, null=True, allow_unicode=True)
     content = models.TextField()
@@ -30,6 +31,7 @@ class Post(models.Model):
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
     text = models.TextField()
+    image = models.ImageField(upload_to='comments/', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
