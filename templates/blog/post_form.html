@@ -1,9 +1,7 @@
-{% extends 'base.html' %}
-
-{% block title %}Создание поста — Blog System{% endblock %}
-
+{% extends 'blog/base.html' %}
+{% block title %}{% if post %}Редактировать{% else %}Создать{% endif %} пост — Blog System{% endblock %}
 {% block content %}
-    <h2>Создать новый пост</h2>
+    <h2>{% if post %}Редактировать пост{% else %}Создать новый пост{% endif %}</h2>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}

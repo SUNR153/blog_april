@@ -1,8 +1,7 @@
-{% extends 'base.html' %}
-
-{% block title %}О проекте — Blog System{% endblock %}
-
+{% extends 'blog/base.html' %}
+{% load i18n %}
+{% block title %}{% trans "О проекте" %} — Blog System{% endblock %}
 {% block content %}
-    <h2>О проекте Blog System</h2>
-    <p>Это учебная многоязычная блог-платформа, созданная в рамках курса Django.</p>
+    <h2>{% trans "О проекте Blog System" %}</h2>
+    <p>{% trans "Это учебная многоязычная блог-платформа, созданная в рамках курса Django." %}</p>
 {% endblock %}

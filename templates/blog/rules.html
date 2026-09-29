@@ -1,8 +1,7 @@
-{% extends 'base.html' %}
-
-{% block title %}Правила — Blog System{% endblock %}
-
+{% extends 'blog/base.html' %}
+{% load i18n %}
+{% block title %}{% trans "Правила" %} — Blog System{% endblock %}
 {% block content %}
-    <h2>Правила публикации</h2>
-    <p>Публикуйте только оригинальный и уважительный контент.</p>
+    <h2>{% trans "Правила публикации" %}</h2>
+    <p>{% trans "Публикуйте только оригинальный и уважительный контент." %}</p>
 {% endblock %}

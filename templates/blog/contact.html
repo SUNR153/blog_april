@@ -1,8 +1,7 @@
 {% extends 'base.html' %}
-
-{% block title %}Контакты — Blog System{% endblock %}
-
+{% load i18n %}
+{% block title %}{% trans "Контакты" %} — Blog System{% endblock %}
 {% block content %}
-    <h2>Контакты</h2>
-    <p>Свяжитесь с нами по электронной почте: info@blogsystem.local</p>
+    <h2>{% trans "Контакты" %}</h2>
+    <p>info@blogsystem.local</p>
 {% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Повторная отправка — Blog System{% endblock %}
+
+{% block content %}
+    <h2>Отправить письмо повторно</h2>
+
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" required>
+        <button type="submit">Отправить</button>
+    </form>
+{% endblock %}
