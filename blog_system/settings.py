@@ -14,6 +14,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 from decouple import config
 import os
+import dj_database_url
 
 load_dotenv()
 
@@ -80,14 +81,11 @@ WSGI_APPLICATION = 'blog_system.wsgi.application'
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DB_NAME', 'db_aprill'),
-        'USER': os.getenv('DB_USER', 'postgres'),
-        'PASSWORD': os.getenv('DB_PASSWORD'),
-        'HOST': os.getenv('DB_HOST', '127.0.0.1'),
-        'PORT': os.getenv('DB_PORT', '5432'),
-    }
+    'default': dj_database_url.config(
+        default=config('DATABASE_URL', default='sqlite3:///' + str(BASE_DIR / 'db/sqlite3')),
+        conn_max_age=600,
+        ssl_require=not DEBUG,
+    )
 }
 
 
